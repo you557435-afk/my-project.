@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Mamagement System</title>
+</head>
+<body>
+
+    <script>
+     class Student{
+        constructor(id, name, grades, attendance){
+            this.id =id;
+            this.name =name;
+            this.grades =grades;
+            this.attendance =attendance;
+
+        }
+      calculateAverage() {
+        let total =this.grades.reduce((sum, grade) => {
+            return sum + grade;
+        },0);
+        return total / this.grades.length;
+      }
+     getGrade(average) {
+        if (average >=90) {
+            return "A";
+        }
+        else if (average >=80){
+            return "B";
+        }
+        else if (average >=70){
+            return "C";
+        }
+        else if (average >=60){
+            return "D";
+        }
+        else if (average >=50){
+            return "E";
+        }
+        else{
+            return"F";
+        }
+     }
+     getResult( ){
+         let average = this .calculateAverage();
+         if (average >= 50 && this.attendance >=75){
+            return"ناجح";
+         }
+         else{
+            return"يحتاج مراجعة";
+         }
+     }
+      
+     }
+     let StudentList = [
+        new Student(101, "Ahmed", [90, 85, 95],90),
+        new Student(102, "Yara", [45, 48, 42],80),
+        new Student(103, "mohamed", [70, 75, 80],85),
+        new Student(104, "sara", [40, 45, 48],70), 
+     ];
+     console.log("===== Students Reports=====");
+     StudentList. forEach(Student => {
+        let average = Student.calculateAverage();
+        console.log("Name:", Student.name);
+        console.log("Average:", average);
+        console.log("Grade:", Student.getGrade(average));
+        console.log("Result:", Student.getResult());
+        console.log("----------------");
+     });
+     let strugglinStudents = StudentList.filter(Student => {
+        let average = Student.calculateAverage();
+        return average >= 40 && average <= 49;
+     });
+     let mercyStudents = strugglinStudents.map(student =>{
+         let newAverage = student.calculateAverage() + 5;
+
+     return {
+
+        name: student.name,
+
+        oldAverage: student.calculateAverage(),
+
+        newAverage: newAverage
+
+     };
+     });
+     let totalNewAverages = mercyStudents.reduce((sum, student) => {
+
+     return sum + student.newAverage;
+
+     }, 0); 
+     let mercyAverage = mercyStudents.length > 0
+
+     ? totalNewAverages / mercyStudents.length
+
+      : 0;
+      console.log("===== Mercy Committee =====");
+
+     console.log("Students included in mercy:", mercyStudents);
+
+     console.log("Average after mercy:", mercyAverage);
+
+    </script>
+</body>
+</html>
